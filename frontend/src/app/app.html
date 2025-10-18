@@ -1,0 +1,41 @@
+<main class="page">
+  <section class="hero">
+    <h1>{{ title() }}</h1>
+    <p>
+      This Angular frontend talks to the Fastify backend. Run both servers to see the live greeting.
+    </p>
+  </section>
+
+  <section class="card">
+    <header>
+      <h2>Backend Greeting</h2>
+      <p>Use the form to refresh the message or personalise it.</p>
+    </header>
+
+    <form (submit)="loadGreeting(nameInput.value); $event.preventDefault()">
+      <label for="name">Name (optional)</label>
+      <div class="input-row">
+        <input
+          id="name"
+          #nameInput
+          type="text"
+          placeholder="Angular Developer"
+          autocomplete="off"
+        />
+        <button type="submit" [disabled]="loading()">Refresh</button>
+      </div>
+    </form>
+
+    @if (loading()) {
+      <p class="status info">Loading greeting from Fastify…</p>
+    }
+
+    @if (error()) {
+      <p class="status error">{{ error() }}</p>
+    }
+
+    @if (!loading() && greeting()) {
+      <p class="status success">{{ greeting() }}</p>
+    }
+  </section>
+</main>
